@@ -19,7 +19,7 @@ class AudioProcessor:
 
     def __init__(self, settings: Settings):
         y, self._sampling_rate = librosa.load(
-            f"/src/samples/sample_{settings.sample_number}_{settings.sample_type}.wav",
+            f"./src/samples/sample_{settings.sample_number}_{settings.sample_type}.wav",
             sr=None,
         )
         self._rms = librosa.feature.rms(y=y, frame_length=2048, hop_length=512)[0]
