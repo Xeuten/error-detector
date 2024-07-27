@@ -5,7 +5,7 @@ from src.settings import detector_settings
 from src.utils import prepare_audio
 
 normalized_audio_path = prepare_audio(
-    f"/src/samples/sample_{detector_settings.sample_number}_{detector_settings.sample_type}.wav"
+    f"./src/samples/sample_{detector_settings.sample_number}_{detector_settings.sample_type}.wav"
 )
 model = whisper.load_model("large")
 audio = whisper.load_audio(normalized_audio_path)

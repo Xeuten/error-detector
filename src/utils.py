@@ -21,7 +21,7 @@ def count_sublist_occurrences(big_list: list[Any], small_list: list[Any]) -> int
 
 def prepare_audio(audio_path: str) -> str:
     path_split = audio_path.split(".")
-    normalized_audio_path = f"{path_split[0]}_normalized.{path_split[1]}"
+    normalized_audio_path = f".{path_split[1]}_normalized.{path_split[2]}"
     command = [
         "ffmpeg",
         "-i",

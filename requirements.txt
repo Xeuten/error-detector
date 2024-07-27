@@ -4,3 +4,4 @@ whisper-timestamped==1.15.4
 Levenshtein==0.25.1
 fuzzywuzzy==0.18.0
 librosa==0.10.2
+numpy<2.0.0
