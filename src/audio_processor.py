@@ -20,7 +20,7 @@ class AudioProcessor:
     def __init__(self, settings: Settings):
         y, self._sampling_rate = librosa.load(
             f"/src/samples/sample_{settings.sample_number}_{settings.sample_type}.wav",
-            sr=None
+            sr=None,
         )
         self._rms = librosa.feature.rms(y=y, frame_length=2048, hop_length=512)[0]
         self._silence_threshold = settings.silence_threshold
@@ -69,14 +69,17 @@ class AudioProcessor:
         return non_silent_intervals, silent_intervals
 
     def _find_overlapping_intervals(
-        self, non_silent_intervals: Intervals, non_silent_durations: list[float],
+        self,
+        non_silent_intervals: Intervals,
+        non_silent_durations: list[float],
     ) -> SecondsIntervals:
         mean_non_silent_duration = np.mean(non_silent_durations)
         std_dev_non_silent_duration = np.std(non_silent_durations)
         sound_overlapping = [
             [self._to_seconds(interval[0]), self._to_seconds(interval[1])]
             for interval, duration in zip(non_silent_intervals, non_silent_durations)
-            if duration > (
+            if duration
+            > (
                 # I assume that non-silent intervals that exceed a certain amount of
                 # stds are intervals with sound overlapping
                 self._overlapping_threshold * std_dev_non_silent_duration

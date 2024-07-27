@@ -29,8 +29,8 @@ class TextProcessor:
         self._confidence_threshold = settings.confidence_threshold
 
     def _prepare_text(self, text: str) -> str:
-        text = re.sub(r'[^\w\d\s]', '', text, flags=re.UNICODE)
-        return ' '.join(tokenize(text))
+        text = re.sub(r"[^\w\d\s]", "", text, flags=re.UNICODE)
+        return " ".join(tokenize(text))
 
     def _prepare_word(self, word: str):
         return word.replace("ё", "е").lower()
@@ -42,7 +42,7 @@ class TextProcessor:
     def _set_confidence_gap(self) -> None:
         confidences = [
             word["confidence"]
-            for word in self.translated_words[1:len(self.translated_words) - 1]
+            for word in self.translated_words[1 : len(self.translated_words) - 1]
         ]
 
         # I distinguish between different confidence values in the same way as I did
@@ -50,8 +50,7 @@ class TextProcessor:
         mean_confidence = np.mean(confidences)
         std_dev_confidence = np.std(confidences)
         self.confidence_gap = (
-            mean_confidence -
-            self._confidence_threshold * std_dev_confidence
+            mean_confidence - self._confidence_threshold * std_dev_confidence
         )
 
     def _set_tokens(self) -> None:

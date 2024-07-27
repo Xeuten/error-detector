@@ -1,8 +1,8 @@
 import whisper_timestamped as whisper
 
 from src.error_detector import ErrorDetector
-from src.utils import prepare_audio
 from src.settings import detector_settings
+from src.utils import prepare_audio
 
 normalized_audio_path = prepare_audio(
     f"/src/samples/sample_{detector_settings.sample_number}_{detector_settings.sample_type}.wav"

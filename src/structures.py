@@ -29,7 +29,8 @@ class FileError:
     _correction: Optional[str]
 
     def __init__(
-        self, error_type: ErrorType,
+        self,
+        error_type: ErrorType,
         interval: tuple[float, float],
         correction: Optional[str] = None,
     ):

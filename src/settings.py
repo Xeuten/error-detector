@@ -1,4 +1,5 @@
 from decouple import config
+
 from src.structures import Settings
 
 detector_settings = Settings(
@@ -7,5 +8,7 @@ detector_settings = Settings(
     silence_threshold=config("SILENCE_THRESHOLD", cast=float),
     overlapping_threshold=config("OVERLAPPING_THRESHOLD", cast=float),
     confidence_threshold=config("CONFIDENCE_THRESHOLD", cast=float),
-    token_similarity_ratio_threshold=config("TOKEN_SIMILARITY_RATIO_THRESHOLD", cast=int),
+    token_similarity_ratio_threshold=config(
+        "TOKEN_SIMILARITY_RATIO_THRESHOLD", cast=int
+    ),
 )

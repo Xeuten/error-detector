@@ -11,7 +11,7 @@ def count_sublist_occurrences(big_list: list[Any], small_list: list[Any]) -> int
     small_len = len(small_list)
     big_len = len(big_list)
     while i <= big_len - small_len:
-        if big_list[i:i + small_len] == small_list:
+        if big_list[i : i + small_len] == small_list:
             count += 1
             i += small_len
         else:
@@ -28,7 +28,7 @@ def prepare_audio(audio_path: str) -> str:
         audio_path,
         "-filter:a",
         "speechnorm",
-        normalized_audio_path
+        normalized_audio_path,
     ]
     subprocess.run(command)
     return normalized_audio_path
