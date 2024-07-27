@@ -10,7 +10,7 @@ def run(settings: Settings = detector_settings) -> ErrorDetector:
     normalized_audio_path = prepare_audio(
         f"./src/samples/sample_{settings.sample_number}_{settings.sample_type}.wav"
     )
-    model = whisper.load_model("large")
+    model = whisper.load_model("large", device="cuda")
     audio = whisper.load_audio(normalized_audio_path)
     result = whisper.transcribe(
         model, audio, language="ru", remove_punctuation_from_words=True
