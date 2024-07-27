@@ -24,6 +24,7 @@ def prepare_audio(audio_path: str) -> str:
     normalized_audio_path = f".{path_split[1]}_normalized.{path_split[2]}"
     command = [
         "ffmpeg",
+        "-y",
         "-i",
         audio_path,
         "-filter:a",
