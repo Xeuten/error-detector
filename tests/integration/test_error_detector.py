@@ -1,8 +1,17 @@
 import pytest
 
-from main import run
-from src.settings import detector_settings
-from src.structures import ErrorType
+from src.structures import ErrorType, Settings, SampleType
+from tests.test_utils import run
+
+
+settings = Settings(
+    sample_number=1,
+    sample_type=SampleType.LONG_OVERLAPPING,
+    silence_threshold=0.015,
+    overlapping_threshold=2.3,
+    confidence_threshold=3,
+    token_similarity_ratio_threshold=82,
+)
 
 
 @pytest.mark.parametrize(
@@ -43,7 +52,6 @@ from src.structures import ErrorType
 def test_detector_overlapping(
     sample_number: int, sample_type: str, expected_counts: dict[str, int]
 ) -> None:
-    settings = detector_settings.copy()
     settings.sample_number = sample_number
     settings.sample_type = sample_type
 
