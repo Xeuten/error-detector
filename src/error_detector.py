@@ -107,7 +107,11 @@ class ErrorDetector:
                     translated_words[i2 - 1]["end"],
                 )
         if i_j_diff < 0:
-            ts = translated_words[i2]["end"]
+            ts = (
+                translated_words[i2]["end"]
+                if i2 < len(translated_words)
+                else translated_words[i2 - 1]["end"]
+            )
             self.errors.append(
                 FileError(
                     error_type=ErrorType.MISSING,

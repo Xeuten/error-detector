@@ -5,3 +5,6 @@ Levenshtein==0.25.1
 fuzzywuzzy==0.18.0
 librosa==0.10.2
 numpy<2.0.0
+pytest==8.3.2
+--find-links https://download.pytorch.org/whl/torch_stable.html
+torch==2.3.1+cu121
