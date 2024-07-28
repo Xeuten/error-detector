@@ -1,0 +1,7 @@
+error_detector
+==============
+
+.. toctree::
+   :maxdepth: 4
+
+   src
