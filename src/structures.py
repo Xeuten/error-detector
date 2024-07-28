@@ -45,6 +45,12 @@ class FileError:
         return s
 
 
+class ModelType(StrEnum):
+    """Enum class to represent the type of the Whisper model."""
+    MEDIUM = auto()
+    LARGE = auto()
+
+
 @dataclass
 class Settings:
     """Data class to represent the settings."""
@@ -54,3 +60,4 @@ class Settings:
     token_similarity_ratio_threshold: int
     sample_number: int
     sample_type: SampleType
+    model_type: ModelType

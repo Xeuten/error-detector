@@ -11,4 +11,5 @@ detector_settings = Settings(
     token_similarity_ratio_threshold=config(
         "TOKEN_SIMILARITY_RATIO_THRESHOLD", cast=int
     ),
+    model_type=config("MODEL_TYPE"),
 )
