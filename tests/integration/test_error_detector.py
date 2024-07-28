@@ -43,7 +43,7 @@ from src.structures import ErrorType
 def test_detector_overlapping(
     sample_number: int, sample_type: str, expected_counts: dict[str, int]
 ) -> None:
-    settings = detector_settings.copy()
+    settings = detector_settings
     settings.sample_number = sample_number
     settings.sample_type = sample_type
 
