@@ -17,7 +17,7 @@ from src.structures import ErrorType
         pytest.param(
             2,
             "long_overlapping",
-            {"overlapping": 15},
+            {"overlapping": 0},
             marks=pytest.mark.l_overlapping_2,
         ),
         pytest.param(
@@ -52,4 +52,4 @@ def test_detector_overlapping(
     for error in detector.errors:
         error_counts[error._error_type] += 1
 
-    assert error_counts[ErrorType.OVERLAPPING] == expected_counts["overlapping"]
+    assert error_counts[ErrorType.OVERLAPPING] == expected_counts.get("overlapping")

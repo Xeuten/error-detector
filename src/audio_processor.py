@@ -9,6 +9,8 @@ type SecondsIntervals = list[list[float]]
 
 
 class AudioProcessor:
+    """This class processes the audio file and determines the silent and non-silent intervals."""
+
     _rms: ndarray
     _silence_threshold: float
     _overlapping_threshold: float
@@ -18,6 +20,7 @@ class AudioProcessor:
     combined_silent_durations: float
 
     def __init__(self, settings: Settings):
+        """Initializes the AudioProcessor with the given settings."""
         y, self._sampling_rate = librosa.load(
             f"./src/samples/sample_{settings.sample_number}_{settings.sample_type}.wav",
             sr=None,
@@ -27,12 +30,15 @@ class AudioProcessor:
         self._overlapping_threshold = settings.overlapping_threshold
 
     def _to_seconds(self, value: int) -> float:
+        """Converts the given value to seconds."""
         return value * 512 / self._sampling_rate
 
     def _to_durations(self, intervals: Intervals) -> list[float]:
+        """Converts the given intervals to durations in seconds."""
         return [self._to_seconds(end - start) for start, end in intervals]
 
     def _determine_intervals(self) -> tuple[Intervals, Intervals]:
+        """Determines the silent and non-silent intervals."""
         non_silent_intervals = []
         silent_intervals = []
         current_interval = []
@@ -73,6 +79,7 @@ class AudioProcessor:
         non_silent_intervals: Intervals,
         non_silent_durations: list[float],
     ) -> SecondsIntervals:
+        """Finds the overlapping intervals in the non-silent intervals."""
         mean_non_silent_duration = np.mean(non_silent_durations)
         std_dev_non_silent_duration = np.std(non_silent_durations)
         sound_overlapping = [
@@ -89,6 +96,7 @@ class AudioProcessor:
         return sound_overlapping
 
     def process(self) -> None:
+        """Processes the audio file and determines the silent and non-silent intervals."""
         non_silent_intervals, silent_intervals = self._determine_intervals()
         non_silent_durations = self._to_durations(non_silent_intervals)
         self._overlapping_intervals = self._find_overlapping_intervals(
@@ -97,6 +105,7 @@ class AudioProcessor:
         self.combined_silent_durations = np.sum(self._to_durations(silent_intervals))
 
     def check_sound_overlapping(self, interval_start: float) -> bool:
+        """Checks if the given interval start is in the overlapping intervals."""
         return any(
             interval[0] <= interval_start < interval[1]
             for interval in self._overlapping_intervals

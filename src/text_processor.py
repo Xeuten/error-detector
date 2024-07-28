@@ -10,6 +10,7 @@ from src.utils import tokenize
 
 
 class TextProcessor:
+    """This class determines the confidence gap, translated words, and tokens."""
     _original_text: str
     _translated_text: str
     _segments: list[dict[str, Any]]
@@ -23,23 +24,28 @@ class TextProcessor:
     prepared_translated_tokens: list[str]
 
     def __init__(self, whisper_result: dict[str, Any], settings: Settings):
+        """Initializes the TextProcessor with the given whisper result and settings."""
         self._original_text = samples[f"sample_{settings.sample_number}"]
         self._translated_text = whisper_result["text"]
         self._segments = whisper_result["segments"]
         self._confidence_threshold = settings.confidence_threshold
 
     def _prepare_text(self, text: str) -> str:
+        """Prepares the given text by removing punctuation and normalizing spaces."""
         text = re.sub(r"[^\w\d\s]", "", text, flags=re.UNICODE)
         return " ".join(tokenize(text))
 
     def _prepare_word(self, word: str):
+        """Prepares the given word by replacing 'ё' with 'е' and converting it to lowercase."""
         return word.replace("ё", "е").lower()
 
     def _set_translated_words(self) -> None:
+        """Sets the translated words by combining the words from all segments."""
         words_lists = [segment["words"] for segment in self._segments]
         self.translated_words = reduce(lambda acc, words: acc + words, words_lists, [])
 
     def _set_confidence_gap(self) -> None:
+        """Sets the confidence gap by calculating the mean confidence and standard deviation."""
         confidences = [
             word["confidence"]
             for word in self.translated_words[1 : len(self.translated_words) - 1]
@@ -54,6 +60,7 @@ class TextProcessor:
         )
 
     def _set_tokens(self) -> None:
+        """Sets the original and translated tokens and their prepared versions."""
         translated = self._prepare_text(self._translated_text)
         original = self._prepare_text(self._original_text)
         self.original_tokens = tokenize(original)
@@ -66,6 +73,7 @@ class TextProcessor:
         ]
 
     def process(self) -> None:
+        """Processes the text by setting the translated words, confidence gap, and tokens."""
         self._set_translated_words()
         self._set_confidence_gap()
         self._set_tokens()

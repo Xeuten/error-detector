@@ -10,6 +10,7 @@ from src.utils import count_sublist_occurrences
 
 
 class ErrorDetector:
+    """This class detects errors in the translated text and audio."""
     _settings: Settings
     _audio_processor: AudioProcessor
     _text_processor: TextProcessor
@@ -18,15 +19,18 @@ class ErrorDetector:
     combined_silent_durations: float
 
     def __init__(self, whisper_result: dict[str, Any], settings: Settings):
+        """Initializes the ErrorDetector with the given whisper result and settings."""
         self._settings = settings
         self._audio_processor = AudioProcessor(settings)
         self._text_processor = TextProcessor(whisper_result, settings)
 
     @property
     def combined_silent_durations(self) -> float:
+        """Returns the combined silent durations in seconds."""
         return self._audio_processor.combined_silent_durations
 
     def _handle_replace(self, i1: int, i2: int, j1: int, j2: int) -> None:
+        """Handles the replace case in the opcodes."""
         original_tokens = self._text_processor.original_tokens
         translated_tokens = self._text_processor.translated_tokens
         translated_words = self._text_processor.translated_words
@@ -121,6 +125,7 @@ class ErrorDetector:
             )
 
     def _handle_delete(self, i1: int, i2: int, j1: int, j2: int) -> None:
+        """Handles the delete case in the opcodes."""
         translated_tokens = self._text_processor.translated_tokens
         translated_words = self._text_processor.translated_words
         if (count_sublist_occurrences(translated_tokens, translated_tokens[i1:i2])) > 1:
@@ -145,6 +150,7 @@ class ErrorDetector:
             )
 
     def _handle_insert(self, i1: int, j1: int, j2: int) -> None:
+        """Handles the insert case in the opcodes."""
         original_tokens = self._text_processor.original_tokens
         translated_words = self._text_processor.translated_words
         word = (
@@ -162,6 +168,7 @@ class ErrorDetector:
         )
 
     def _find_errors(self) -> None:
+        """Finds the errors in the audio."""
         differ = difflib.SequenceMatcher(
             None,
             self._text_processor.prepared_translated_tokens,
@@ -177,6 +184,7 @@ class ErrorDetector:
                     self._handle_insert(i1, j1, j2)
 
     def run(self) -> None:
+        """Runs the error detector."""
         self._audio_processor.process()
         self._text_processor.process()
         self._find_errors()

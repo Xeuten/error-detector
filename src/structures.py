@@ -4,6 +4,7 @@ from typing import Optional
 
 
 class ErrorType(StrEnum):
+    """Enum class to represent the type of the error."""
     MISSING = auto()
     DUPLICATE = auto()
     OVERLAPPING = auto()
@@ -11,12 +12,8 @@ class ErrorType(StrEnum):
     DICTION = auto()
 
 
-class ModelType(StrEnum):
-    MEDIUM = auto()
-    LARGE = auto()
-
-
 class SampleType(StrEnum):
+    """Enum class to represent the type of the sample."""
     CLEAR = auto()
     OVERLAPPING = auto()
     LONG_OVERLAPPING = auto()
@@ -24,6 +21,7 @@ class SampleType(StrEnum):
 
 
 class FileError:
+    """Class to represent an error in a file."""
     _error_type: ErrorType
     _interval: tuple[float, float]
     _correction: Optional[str]
@@ -34,11 +32,13 @@ class FileError:
         interval: tuple[float, float],
         correction: Optional[str] = None,
     ):
+        """Initializes the FileError with the given error type, interval, and correction."""
         self._error_type = error_type
         self._interval = interval
         self._correction = correction
 
     def __str__(self):
+        """Returns the string representation of the FileError."""
         s = f"{self._error_type.name}: {self._interval}"
         if self._correction:
             s = f"{s} -> {self._correction}"
@@ -47,6 +47,7 @@ class FileError:
 
 @dataclass
 class Settings:
+    """Data class to represent the settings."""
     silence_threshold: float
     overlapping_threshold: float
     confidence_threshold: float
