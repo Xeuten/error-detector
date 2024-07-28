@@ -1,5 +1,5 @@
 import difflib
-from typing import Any
+from typing import Any, Optional
 
 from fuzzywuzzy import fuzz
 
@@ -11,6 +11,7 @@ from src.utils import count_sublist_occurrences
 
 class ErrorDetector:
     """This class detects errors in the translated text and audio."""
+
     _settings: Settings
     _audio_processor: AudioProcessor
     _text_processor: TextProcessor
@@ -18,11 +19,17 @@ class ErrorDetector:
     errors: list[FileError] = []
     combined_silent_durations: float
 
-    def __init__(self, whisper_result: dict[str, Any], settings: Settings):
+    def __init__(
+        self,
+        whisper_result: dict[str, Any],
+        settings: Settings,
+        audio_path: Optional[str] = None,
+        text_path: Optional[str] = None,
+    ):
         """Initializes the ErrorDetector with the given whisper result and settings."""
         self._settings = settings
-        self._audio_processor = AudioProcessor(settings)
-        self._text_processor = TextProcessor(whisper_result, settings)
+        self._audio_processor = AudioProcessor(settings, audio_path)
+        self._text_processor = TextProcessor(whisper_result, settings, text_path)
 
     @property
     def combined_silent_durations(self) -> float:
@@ -124,7 +131,7 @@ class ErrorDetector:
                 )
             )
 
-    def _handle_delete(self, i1: int, i2: int, j1: int, j2: int) -> None:
+    def _handle_delete(self, i1: int, i2: int) -> None:
         """Handles the delete case in the opcodes."""
         translated_tokens = self._text_processor.translated_tokens
         translated_words = self._text_processor.translated_words
@@ -179,7 +186,7 @@ class ErrorDetector:
                 case "replace":
                     self._handle_replace(i1, i2, j1, j2)
                 case "delete":
-                    self._handle_delete(i1, i2, j1, j2)
+                    self._handle_delete(i1, i2)
                 case "insert":
                     self._handle_insert(i1, j1, j2)
 

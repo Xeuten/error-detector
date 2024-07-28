@@ -1,3 +1,5 @@
+from typing import Optional
+
 import librosa
 import numpy as np
 from numpy import ndarray
@@ -19,12 +21,13 @@ class AudioProcessor:
 
     combined_silent_durations: float
 
-    def __init__(self, settings: Settings):
+    def __init__(self, settings: Settings, audio_path: Optional[str] = None):
         """Initializes the AudioProcessor with the given settings."""
-        y, self._sampling_rate = librosa.load(
-            f"./src/samples/sample_{settings.sample_number}_{settings.sample_type}.wav",
-            sr=None,
+        path = (
+            audio_path
+            or f"./src/samples/sample_{settings.sample_number}_{settings.sample_type}.wav"
         )
+        y, self._sampling_rate = librosa.load(path, sr=None)
         self._rms = librosa.feature.rms(y=y, frame_length=2048, hop_length=512)[0]
         self._silence_threshold = settings.silence_threshold
         self._overlapping_threshold = settings.overlapping_threshold

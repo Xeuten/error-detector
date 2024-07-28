@@ -9,6 +9,7 @@ This project represents a detector of errors in audio files. It is intended to d
 - Python 3.12
 - ffmpeg
 - CUDA toolkit 12.1
+- libomp140.x86_64.dll (for Windows)
 
 ## Hardware
 

@@ -1,6 +1,6 @@
 import re
 from functools import reduce
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 
@@ -11,6 +11,7 @@ from src.utils import tokenize
 
 class TextProcessor:
     """This class determines the confidence gap, translated words, and tokens."""
+
     _original_text: str
     _translated_text: str
     _segments: list[dict[str, Any]]
@@ -23,9 +24,17 @@ class TextProcessor:
     prepared_original_tokens: list[str]
     prepared_translated_tokens: list[str]
 
-    def __init__(self, whisper_result: dict[str, Any], settings: Settings):
+    def __init__(
+        self,
+        whisper_result: dict[str, Any],
+        settings: Settings,
+        text_path: Optional[str] = None,
+    ):
         """Initializes the TextProcessor with the given whisper result and settings."""
         self._original_text = samples[f"sample_{settings.sample_number}"]
+        if text_path:
+            with open(text_path, "r", encoding="utf-8") as file:
+                self._original_text = file.read()
         self._translated_text = whisper_result["text"]
         self._segments = whisper_result["segments"]
         self._confidence_threshold = settings.confidence_threshold

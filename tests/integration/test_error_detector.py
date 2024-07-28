@@ -38,7 +38,7 @@ from src.structures import ErrorType
             {"overlapping": 0},
             marks=pytest.mark.l_overlapping_5,
         ),
-    ]
+    ],
 )
 def test_detector_overlapping(
     sample_number: int, sample_type: str, expected_counts: dict[str, int]

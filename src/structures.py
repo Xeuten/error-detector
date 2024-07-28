@@ -5,6 +5,7 @@ from typing import Optional
 
 class ErrorType(StrEnum):
     """Enum class to represent the type of the error."""
+
     MISSING = auto()
     DUPLICATE = auto()
     OVERLAPPING = auto()
@@ -14,6 +15,7 @@ class ErrorType(StrEnum):
 
 class SampleType(StrEnum):
     """Enum class to represent the type of the sample."""
+
     CLEAR = auto()
     OVERLAPPING = auto()
     LONG_OVERLAPPING = auto()
@@ -22,6 +24,7 @@ class SampleType(StrEnum):
 
 class FileError:
     """Class to represent an error in a file."""
+
     _error_type: ErrorType
     _interval: tuple[float, float]
     _correction: Optional[str]
@@ -47,6 +50,7 @@ class FileError:
 
 class ModelType(StrEnum):
     """Enum class to represent the type of the Whisper model."""
+
     MEDIUM = auto()
     LARGE = auto()
 
@@ -54,6 +58,7 @@ class ModelType(StrEnum):
 @dataclass
 class Settings:
     """Data class to represent the settings."""
+
     silence_threshold: float
     overlapping_threshold: float
     confidence_threshold: float
