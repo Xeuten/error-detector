@@ -24,3 +24,10 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 - Fill the .env file according to the .env.example file
+
+# Running
+
+Main:
+`python main.py /path/to/audio/file /path/to/text/file`
+Testing:
+`pytest -v -m l_overlapping_*number*`
